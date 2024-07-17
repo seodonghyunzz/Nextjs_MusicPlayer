@@ -7,7 +7,7 @@ import MusicPlay from "../musicplay";
 const PLAYLIST_ID = "37i9dQZEVXbMDoHDwVN2tF";
 
 export default function Artists() {
-  const {onNextTrack,onPreviousTrack,playtrack_player,currentTrack,isMusicPlay,access_token, setAccessToken,newtracks, setnewTracks,toptracks, settopTracks,artists, setArtists} = usePlayerStore();
+  const {access_token, artists, setArtists} = usePlayerStore();
   const router = useRouter();
   
   useEffect(() => {
@@ -57,7 +57,7 @@ export default function Artists() {
             </div>
           ))}
         </div>
-        <div><MusicPlay currentTrack={currentTrack} isMusicPlay={isMusicPlay} playtrack={playtrack_player} onPreviousTrack={onPreviousTrack} onNextTrack={onNextTrack} /></div>
+       
       </div>
     );
   }

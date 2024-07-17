@@ -2,7 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Search from "./search";
 import Menu from "./menu";
-
+import MusicPlay from "./musicplay";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -16,7 +16,9 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <Menu/>
         <Search/> 
-        {children}</body>
+        {children}
+        <MusicPlay/>
+        </body>
     </html>
   );
 }

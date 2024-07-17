@@ -1,13 +1,12 @@
 'use client'
 import { useEffect,useState } from "react";
 import usePlayerStore from "../stores/playerStore";
-import MusicPlay from "../musicplay";
 
 
 export default function Rank() {
 
   const PLAYLIST_ID = "37i9dQZEVXbMDoHDwVN2tF";
-  const {initializePlayer,onNextTrack,onPreviousTrack,playtrack_player,currentTrack, setCurrentTrack,player,isMusicPlay,setIsMusicPlay,deviceId,handlePlay,handlePause,access_token, setAccessToken,toptracks, settopTracks,artists, setArtists, isPlayerReady,setIsPlayerReady} = usePlayerStore();
+  const {initializePlayer,setCurrentTrack,player,isMusicPlay,setIsMusicPlay,deviceId,handlePlay,handlePause,access_token, setAccessToken,toptracks, settopTracks,artists, setArtists, isPlayerReady,setIsPlayerReady} = usePlayerStore();
 
   useEffect(() => {
     const fetchTopTracks = async () => {
@@ -78,7 +77,6 @@ export default function Rank() {
             </div>
         ))}   
         </div>
-        <div><MusicPlay currentTrack={currentTrack} isMusicPlay={isMusicPlay} playtrack={playtrack_player} onPreviousTrack={onPreviousTrack} onNextTrack={onNextTrack} /></div>
       </div>
       
     )

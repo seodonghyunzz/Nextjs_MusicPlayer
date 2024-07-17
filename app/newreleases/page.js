@@ -3,13 +3,9 @@
 import { useEffect, useState } from "react";
 import usePlayerStore from "../stores/playerStore";
 import { useRouter } from "next/navigation";
-import MusicPlay from "../musicplay";
-
-const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID;
-const CLIENT_SECRET = process.env.NEXT_PUBLIC_CLIENT_SECRET;
 
 export default function Newreleases() {
-  const {onNextTrack,onPreviousTrack,playtrack_player,isMusicPlay,currentTrack,access_token, setAccessToken,newtracks, setnewTracks} = usePlayerStore();
+  const {access_token,newtracks, setnewTracks} = usePlayerStore();
   const router = useRouter();
   
   useEffect(()=>{
@@ -52,7 +48,6 @@ export default function Newreleases() {
               </div>
             ))}
           </div>
-          <div><MusicPlay currentTrack={currentTrack} isMusicPlay={isMusicPlay} playtrack={playtrack_player} onPreviousTrack={onPreviousTrack} onNextTrack={onNextTrack} /></div>
         </div>
       </>
     );

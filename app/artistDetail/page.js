@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import usePlayerStore from "../stores/playerStore";
 import MusicPlay from "../musicplay";
 export default function ArtistDetail({id}) {
-  const { currentTrackIndex,setCurrentTrackIndex,isMusicPlay,initializePlayer,access_token, setAccessToken, loadAccessToken, currentTrack, setCurrentTrack, handlePlay,handlePause, isPlayerReady, deviceId,setDeviceId,setIsPlayerReady, player,setPlayer,ismusicplay,setIsMusicPlay} = usePlayerStore();
+  const {access_token} = usePlayerStore();
   const [artist, setArtist] = useState(null);
   const [artistAlbum , setArtistAlbum] = useState([])
   const router = useRouter();
@@ -46,36 +46,8 @@ export default function ArtistDetail({id}) {
     }
     return followers;
   };
-  const playtrack_player = () => {
-    if (!currentTrack) return;
-    if (isMusicPlay) {
-      handlePause(deviceId, access_token, isPlayerReady, player);
-      setIsMusicPlay(false);
-    } else {
-      handlePlay(currentTrack.uri, deviceId, access_token, isPlayerReady, player);
-      setIsMusicPlay(true);
-      
-    }
-  };
-  const handleNextTrack = () => {
-    const nextIndex = (currentTrackIndex + 1) % album.tracks.items.length;
-    const nextTrack = album.tracks.items[nextIndex];
-    playtrack(nextTrack, nextIndex);
-  };
-  const handlePreviousTrack = () => {
-    if (!album || !currentTrackIndex) return;
-    const previousIndex = (currentTrackIndex - 1 + album.tracks.items.length) % album.tracks.items.length;
-    const previousTrack = album.tracks.items[previousIndex];
-    playtrack(previousTrack, previousIndex);
-  };
-  const setVolume = (volume) => {
-    player.setVolume(volume).catch((err) => {
-      console.error('Error setting volume:', err);
-    });
-  };
     if (!artist) return(
-        <div className="loading">
-          
+        <div className="loading"> 
           <p>Loading..</p>
         </div>
       )
@@ -105,7 +77,7 @@ export default function ArtistDetail({id}) {
           ))}
         </ul>
       </div>
-      <div><MusicPlay currentTrack={currentTrack} isMusicPlay={isMusicPlay} playtrack={playtrack_player} onPreviousTrack={handlePreviousTrack} onNextTrack={handleNextTrack} setVolume={setVolume} /></div>
+      
     </div>
     </>
   );

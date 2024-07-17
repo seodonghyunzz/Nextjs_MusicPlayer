@@ -16,11 +16,6 @@ export default function Mainpage() {
     }
   }, [access_token, router]);
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem('spotify_token');
-  //   setAccessToken(token);
-  //   initializePlayer(token);
-  // }, [setAccessToken, initializePlayer]);
 
   useEffect(() => {
     const fetchNewTracks = async () => {
@@ -115,7 +110,6 @@ export default function Mainpage() {
 
   return (
     <>
-    <div className="newTrack_wrapper">
       <div className="tracktitle">
         <h1>Top tracks</h1>
         <p className="blank"></p>
@@ -183,9 +177,6 @@ export default function Mainpage() {
           </div>
         ))}
       </div>
-    </div>
-    
-    <div><MusicPlay currentTrack={currentTrack} isMusicPlay={isMusicPlay} playtrack={playtrack_player} onPreviousTrack={onPreviousTrack} onNextTrack={onNextTrack} /></div>
     </>
   );
 }

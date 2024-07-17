@@ -113,7 +113,6 @@ export default function AlbumDetails({id}) {
         </div>
       
       </div>
-      <div><MusicPlay currentTrack={currentTrack} isMusicPlay={isMusicPlay} playtrack={playtrack_player} onPreviousTrack={handlePreviousTrack} onNextTrack={handleNextTrack} setVolume={setVolume} /></div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
-
-export default function MusicPlay({onPreviousTrack,onNextTrack,currentTrack, isMusicPlay, playtrack,setVolume}){
-    
+'use client'
+import usePlayerStore  from "./stores/playerStore";
+export default function MusicPlay(){
+    const {currentTrack,isMusicPlay,playtrack_player,onPreviousTrack,onNextTrack} = usePlayerStore();
     return(
         <>
         {currentTrack ?
@@ -19,8 +20,8 @@ export default function MusicPlay({onPreviousTrack,onNextTrack,currentTrack, isM
                             
                             <button className="player_button_BTN"  onClick={onPreviousTrack}>《</button>
                             { !isMusicPlay ?
-                            <button className="player_button_BTN" onClick={playtrack}>▶</button>
-                            :<button className="player_button_BTN" onClick={playtrack}>II</button>
+                            <button className="player_button_BTN" onClick={playtrack_player}>▶</button>
+                            :<button className="player_button_BTN" onClick={playtrack_player}>II</button>
                             }
                             <button className="player_button_BTN"  onClick={onNextTrack}>》</button>
                             
