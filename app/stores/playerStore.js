@@ -83,7 +83,7 @@ const usePlayerStore = create((set, get) => ({
         const remainingTime = duration - position;
 
         if (remainingTime < 1000 && get().isMusicPlay) {
-          get().handleNextTrack();
+          get().onNextTrack();
         }
       });
 
@@ -136,13 +136,52 @@ const usePlayerStore = create((set, get) => ({
       });
     });
   },
-  handleNextTrack: () => {
-    const { currentTrackIndex, album, handlePlay, deviceId, access_token } = get();
-    const nextIndex = (currentTrackIndex + 1) % album.tracks.items.length;
-    const nextTrack = album.tracks.items[nextIndex];
-    handlePlay(nextTrack.uri, deviceId, access_token);
-    set({ currentTrackIndex: nextIndex, currentTrack: nextTrack });
+
+    playtrack: (track) => {
+    const {handlePause,setCurrentTrack, isPlayerReady,setIsMusicPlay, player, isMusicPlay, handlePlay, deviceId, access_token } = get();
+    if (!isPlayerReady || !deviceId) return;
+    if (isMusicPlay){
+    handlePause(deviceId, access_token, isPlayerReady,player);
+    setIsMusicPlay(false)
+    }else{
+      handlePlay(track.uri, deviceId, access_token, isPlayerReady,player);
+      setIsMusicPlay(true)
+      setCurrentTrack(track)
+      
+    }
+    
   },
+    playtrack_player: () => {
+    const {handlePause,setIsMusicPlay,currentTrack, isPlayerReady, player, isMusicPlay, handlePlay, deviceId, access_token } = get();
+    if (!currentTrack) return;
+    if (isMusicPlay) {
+      handlePause(deviceId, access_token, isPlayerReady, player);
+      setIsMusicPlay(false);
+    } else {
+      handlePlay(currentTrack.uri, deviceId, access_token, isPlayerReady, player);
+      setIsMusicPlay(true);
+      
+    }
+  },
+   onNextTrack: () => {
+    const {currentTrack, toptracks, playtrack, setCurrentTrackPosition } = get();
+    if (!currentTrack || !toptracks.length) return;
+    setCurrentTrackPosition(0);
+    const currentIndex = toptracks.findIndex(({ track }) => track.uri === currentTrack.uri);
+    const nextTrack = toptracks[(currentIndex + 1) % toptracks.length].track;
+    playtrack(nextTrack);
+  },
+
+    onPreviousTrack: () => {
+    const {currentTrack, toptracks, playtrack , setCurrentTrackPosition} = get();
+    setCurrentTrackPosition(0);
+    if (!currentTrack || !toptracks.length) return;
+    const currentIndex = toptracks.findIndex(({ track }) => track.uri === currentTrack.uri);
+    const previousTrack = toptracks[(currentIndex - 1 + toptracks.length) % toptracks.length].track;
+    playtrack(previousTrack);
+  },
+   
+  
 }));
 
 export default usePlayerStore;

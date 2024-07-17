@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 
 const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID;
 const CLIENT_SECRET = process.env.NEXT_PUBLIC_CLIENT_SECRET;
-const PLAYLIST_ID = "37i9dQZEVXbMDoHDwVN2tF";
 
 export default function Search(){
     const [searchInfo,setsearchInfo] = useState("");

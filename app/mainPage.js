@@ -6,9 +6,8 @@ import MusicPlay from "./musicplay";
 
 const PLAYLIST_ID = "37i9dQZEVXbMDoHDwVN2tF";
 
-
 export default function Mainpage() {
-  const {access_token,setAccessToken,isPlayerInitialized,setIsPlayerInitialized,currentTrack, setCurrentTrack,initializePlayer,setCurrentTrackPosition,player,isMusicPlay,setIsMusicPlay,deviceId,handlePlay,handlePause,newtracks, setnewTracks,toptracks, settopTracks,artists, setArtists, isPlayerReady,setIsPlayerReady} = usePlayerStore();
+  const {access_token,setAccessToken,isPlayerInitialized,setIsPlayerInitialized,onNextTrack,onPreviousTrack,playtrack_player,currentTrack, setCurrentTrack,initializePlayer,setCurrentTrackPosition,player,isMusicPlay,setIsMusicPlay,deviceId,handlePlay,handlePause,newtracks, setnewTracks,toptracks, settopTracks,artists, setArtists, isPlayerReady} = usePlayerStore();
   const router = useRouter();
 
   useEffect(() => {
@@ -16,6 +15,12 @@ export default function Mainpage() {
       router.push('/login');
     }
   }, [access_token, router]);
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem('spotify_token');
+  //   setAccessToken(token);
+  //   initializePlayer(token);
+  // }, [setAccessToken, initializePlayer]);
 
   useEffect(() => {
     const fetchNewTracks = async () => {
@@ -68,7 +73,6 @@ export default function Mainpage() {
   useEffect(() => {
     if (!isPlayerInitialized) {
       const token = access_token;
-      
       initializePlayer(token);
     }
   }, [isPlayerInitialized, setAccessToken, initializePlayer, setIsPlayerInitialized]);
@@ -80,6 +84,7 @@ export default function Mainpage() {
  
   const playtrack= (track) => {
     if (!isPlayerReady || !deviceId) return;
+    
     if (isMusicPlay){
     handlePause(deviceId, access_token, isPlayerReady,player);
     setIsMusicPlay(false)
@@ -91,38 +96,8 @@ export default function Mainpage() {
     }
     
   }
-  const playtrack_player = () => {
-    if (!currentTrack) return;
-    if (isMusicPlay) {
-      handlePause(deviceId, access_token, isPlayerReady, player);
-      setIsMusicPlay(false);
-    } else {
-      handlePlay(currentTrack.uri, deviceId, access_token, isPlayerReady, player);
-      setIsMusicPlay(true);
-      
-    }
-  };
-  const onNextTrack = () => {
-    if (!currentTrack || !toptracks.length) return;
-    setCurrentTrackPosition(0);
-    const currentIndex = toptracks.findIndex(({ track }) => track.uri === currentTrack.uri);
-    const nextTrack = toptracks[(currentIndex + 1) % toptracks.length].track;
-    playtrack(nextTrack);
-  };
-
-  const onPreviousTrack = () => {
-    setCurrentTrackPosition(0);
-    if (!currentTrack || !toptracks.length) return;
-    const currentIndex = toptracks.findIndex(({ track }) => track.uri === currentTrack.uri);
-    const previousTrack = toptracks[(currentIndex - 1 + toptracks.length) % toptracks.length].track;
-    playtrack(previousTrack);
-  };
   
-  const setVolume = (volume) => {
-    player.setVolume(volume).catch((err) => {
-      console.error('Error setting volume:', err);
-    });
-  };
+  
   const handleAlbumClick = (id) => {
     router.push(`/album/${id}`);
   };
@@ -137,7 +112,7 @@ export default function Mainpage() {
       </div>
     )
   }
-  
+
   return (
     <>
     <div className="newTrack_wrapper">
@@ -157,7 +132,7 @@ export default function Mainpage() {
               ) : (
                 <div>No Image Available</div>
               )}
-                <div className="button_overlay">
+                <div className={deviceId?"button_overlay":"button_overlay2"}>
                   {isMusicPlay ? 
                   <button className="play_button" onClick={() => {playtrack(track)}}>II</button>
                   :<button className="play_button" onClick={() => {playtrack(track)}}>▶</button>
@@ -210,7 +185,7 @@ export default function Mainpage() {
       </div>
     </div>
     
-    <div><MusicPlay currentTrack={currentTrack} isMusicPlay={isMusicPlay} playtrack={playtrack_player} onPreviousTrack={onPreviousTrack} onNextTrack={onNextTrack} setVolume={setVolume} /></div>
+    <div><MusicPlay currentTrack={currentTrack} isMusicPlay={isMusicPlay} playtrack={playtrack_player} onPreviousTrack={onPreviousTrack} onNextTrack={onNextTrack} /></div>
     </>
   );
 }

@@ -23,12 +23,8 @@ export default function MusicPlay({onPreviousTrack,onNextTrack,currentTrack, isM
                             :<button className="player_button_BTN" onClick={playtrack}>II</button>
                             }
                             <button className="player_button_BTN"  onClick={onNextTrack}>》</button>
-                            <input 
-                                type="range" 
-                                min="0" 
-                                max="100" 
-                               onChange={(e) => setVolume(e.target.value / 100)} 
-                             />
+                            
+                            
                         </div>
                     </div>
                 </div>
@@ -47,12 +43,7 @@ export default function MusicPlay({onPreviousTrack,onNextTrack,currentTrack, isM
                         :<button className="player_button_BTN" >II</button>
                         }
                         <button className="player_button_BTN"  >》</button>
-                        <input 
-                            type="range" 
-                            min="0" 
-                            max="100" 
-                            
-                         />
+                       
                     </div>
                 </div>
             </div>

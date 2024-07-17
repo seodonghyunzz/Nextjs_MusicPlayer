@@ -3,29 +3,15 @@
 import { useEffect, useState } from "react";
 import usePlayerStore from "../stores/playerStore";
 import { useRouter } from "next/navigation";
+import MusicPlay from "../musicplay";
 
 const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID;
 const CLIENT_SECRET = process.env.NEXT_PUBLIC_CLIENT_SECRET;
 
 export default function Newreleases() {
-  const {access_token, setAccessToken,newtracks, setnewTracks} = usePlayerStore();
+  const {onNextTrack,onPreviousTrack,playtrack_player,isMusicPlay,currentTrack,access_token, setAccessToken,newtracks, setnewTracks} = usePlayerStore();
   const router = useRouter();
-  useEffect(() => {
-    const getAuth = async () => {
-      const authParameters = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: `grant_type=client_credentials&client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}`
-      };
-
-      const result = await fetch('https://accounts.spotify.com/api/token', authParameters);
-      const data = await result.json();
-      setAccessToken(data.access_token);
-    };
-    getAuth();
-  }, []);
+  
   useEffect(()=>{
       const fetchNewTracks = async () => {
         if (!access_token) return;
@@ -66,6 +52,7 @@ export default function Newreleases() {
               </div>
             ))}
           </div>
+          <div><MusicPlay currentTrack={currentTrack} isMusicPlay={isMusicPlay} playtrack={playtrack_player} onPreviousTrack={onPreviousTrack} onNextTrack={onNextTrack} /></div>
         </div>
       </>
     );
